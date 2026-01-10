@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Загрузка изображения</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Добавить новое изображение</h2>
+    <hr>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label>Заголовок:</label>
+            {{ form.title }}
+        </div>
+
+        <div class="form-group">
+            <label>Категория:</label>
+            {{ form.category }}
+        </div>
+
+        <div class="form-group">
+            <label>Файл изображения:</label>
+            {{ form.image }}
+        </div>
+
+        <button type="submit" class="btn btn-success">Загрузить в Supabase</button>
+    </form>
+</div>
+</body>
+</html>
