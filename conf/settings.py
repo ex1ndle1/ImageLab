@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'django.contrib.staticfiles',
     'app',
+    'rest_framework',
 
 ]
 
@@ -54,8 +55,11 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'conf.middleware.smp_middleware.CheckIPMiddleware'
+
     
 ]
 
@@ -155,3 +159,5 @@ STORAGES = {
 }
 
 MEDIA_URL = '/media/'
+
+AUTH_USER_MODEL = 'app.User'

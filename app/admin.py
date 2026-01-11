@@ -4,3 +4,4 @@ from . import models
 # admin.site.register(models.ImageModel)
 admin.site.register(models.ImageCategory)
 admin.site.register(models.ImageModel)
+admin.site.register(models.User)

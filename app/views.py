@@ -3,15 +3,23 @@ from django.views.generic import CreateView , ListView
 from .forms import ImageUploadForm
 from django.contrib.auth.decorators import login_required   
 from . import models
+from rest_framework import generics
+from .serializers import UsersSerializer
+
 # from django.contrib.a
 # Create your views here.
+class PeopleListApiView(generics.ListAPIView):
+    queryset = models.User.objects.all()
+    serializer_class = UsersSerializer
+
 
 class ImageListView(ListView):
     template_name = 'home.html'
     context_object_name = 'images'
-     
     def get_queryset(self):
-         return models.ImageModel.objects.all().order_by('uploaded_at')
+        return models.ImageModel.objects.order_by('id')
+        
+
 
 
 def upload_image_view(request):

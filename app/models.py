@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import AbstractUser
 
 
 
@@ -8,7 +8,6 @@ from django.db import models
 class  ImageCategory(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True)
-    
     def __str__(self):
         return self.name
 
@@ -20,12 +19,13 @@ class ImageModel(models.Model):
     category = models.ForeignKey(ImageCategory, related_name='images', on_delete=models.CASCADE)
     def __str__(self):
         return self.title
-    
 
-class User(models.Model):
+
+
+class User(AbstractUser):
     username = models.CharField(max_length=150, unique=True )
-    age = models.IntegerField()
-    
+    age = models.PositiveIntegerField(null=True, blank=True)
+    avatar = models.OneToOneField(ImageModel,on_delete=models.SET_NULL, null=True, blank=True, related_name='user_avatar', default=None)
     def __str__(self):
         return self.username
     
