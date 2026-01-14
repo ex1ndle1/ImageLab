@@ -2,6 +2,7 @@ from rest_framework import serializers
 from . import models
 
 
+
 class ImageSerializer(serializers.ModelSerializer):
     class Meta :
         model = models.ImageModel
@@ -12,6 +13,9 @@ class UsersSerializer(serializers.ModelSerializer):
     avatar = ImageSerializer(read_only=True)
     age_status = serializers.SerializerMethodField()
     password_quality = serializers.SerializerMethodField()
+ 
+
+
     class Meta :
         model = models.User
         fields = ('id', 'username', 'age', 'avatar', 'age_status', 'password_quality')
@@ -26,5 +30,9 @@ class UsersSerializer(serializers.ModelSerializer):
     def get_password_quality(self, obj):
         if len(obj.password) < 8:
             return 'Weak Password'
-        print(obj.password)
+        
         return 'Strong password'
+     
+
+
+    

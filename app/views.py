@@ -5,13 +5,15 @@ from django.contrib.auth.decorators import login_required
 from . import models
 from rest_framework import generics
 from .serializers import UsersSerializer
-
+from .permissions import IsNotExpired
+from rest_framework.response import Response
 # from django.contrib.a
 # Create your views here.
 class PeopleListApiView(generics.ListAPIView):
     queryset = models.User.objects.all()
     serializer_class = UsersSerializer
-
+    permission_classes = [IsNotExpired]
+    
 
 class ImageListView(ListView):
     template_name = 'home.html'
@@ -19,7 +21,6 @@ class ImageListView(ListView):
     def get_queryset(self):
         return models.ImageModel.objects.order_by('id')
         
-
 
 
 def upload_image_view(request):

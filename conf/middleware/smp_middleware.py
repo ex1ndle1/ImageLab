@@ -7,13 +7,13 @@ class CheckIPMiddleware:
     def __call__(self, request):
 
 
-        if request.META.get('REMOTE_ADDR') :
-               print(f'''ip:{request.META.get('REMOTE_ADDR')}''')
+        # if request.META.get('REMOTE_ADDR') :
+        #        print(f'''ip:{request.META.get('REMOTE_ADDR')}''')
         
         
     
-             
-        print(request.session.get('_auth_user_id'))
+        # print(request)     
+        # print(request.session.get('_auth_user_id'))
         response = self.get_response(request)
         return response
         
