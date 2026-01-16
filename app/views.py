@@ -3,12 +3,20 @@ from django.views.generic import CreateView , ListView
 from .forms import ImageUploadForm
 from django.contrib.auth.decorators import login_required   
 from . import models
-from rest_framework import generics
+from rest_framework import generics , views , permissions , authentication
 from .serializers import UsersSerializer
 from .permissions import IsNotExpired
 from rest_framework.response import Response
 # from django.contrib.a
 # Create your views here.
+
+class LtsAPIView(generics.views.APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def  get(self, request):
+        return Response(f'hi {request.user.username}')
+
 class PeopleListApiView(generics.ListAPIView):
     queryset = models.User.objects.all()
     serializer_class = UsersSerializer

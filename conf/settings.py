@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'rest_framework',
+    'rest_framework.authtoken'
 
 ]
 
@@ -161,3 +162,10 @@ STORAGES = {
 MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'app.User'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}

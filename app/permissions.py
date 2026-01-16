@@ -10,7 +10,8 @@ class IsNotExpired(permissions.BasePermission):
         if request.method != 'PUT':
             return True
        
-        time = obj.created_at + timedelta(hours=4)
+        time = obj.avatara.uploaded_at + timedelta(hours=4)
         
         return timezone.now() <= time
     
+
