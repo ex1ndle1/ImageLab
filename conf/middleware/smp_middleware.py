@@ -8,7 +8,7 @@ class CheckIPMiddleware:
 
 
         # if request.META.get('REMOTE_ADDR') :
-        #        print(f'''ip:{request.META.get('REMOTE_ADDR')}''')
+        #         print(f'''ip:{request.META.get('REMOTE_ADDR')}''')
         
         
     
