@@ -1,5 +1,5 @@
 
-from django.db.models.signals import post_delete
+from django.db.models.signals import post_delete, post_init
 from django.dispatch import receiver
 import cloudinary.uploader
 from .models import ImageModel
@@ -13,3 +13,6 @@ def delete_image_from_cloudinary(sender, instance, **kwargs):
             public_id = os.path.splitext(file_path)[0]
             cloudinary.uploader.destroy(public_id)
             print(f"Удалено из Cloudinary: {public_id}")
+
+# @receiver(post_init)
+# def post_initsialization()

@@ -7,9 +7,10 @@ from rest_framework import generics , views , permissions , authentication
 from .serializers import UsersSerializer
 from .permissions import IsNotExpired
 from rest_framework.response import Response
+
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.request import Request
-
+from rest_framework.authtoken.models import Token
 # from django.contrib.a
 # Create your views here.
 
@@ -35,11 +36,11 @@ class LtsAPIView(generics.views.APIView):
 class LogoutView(generics.views.APIView):
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [authentication.TokenAuthentication]
-    def get(self ,  request : Request ):
-          request.auth.delete()
-          return Response('You successfully logout')
-    
-
+    def post(self ,  request : Request ):
+        user = request.user
+        token = Token.objects.get(user = user )
+        token.delete()
+        return Response('successfully loged out')
 
 class ImageListView(ListView):
     template_name = 'home.html'
@@ -58,3 +59,5 @@ def upload_image_view(request):
     else:
         form = ImageUploadForm()
     return render(request, 'crud/create.html', {'form': form})
+
+
