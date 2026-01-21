@@ -104,7 +104,27 @@
             {% endfor %}
         </div>
     </div>
+</div> </div> {% if is_paginated %}
+<nav aria-label="Page navigation" class="mt-5">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">backk</a></li>
+        {% endif %}
 
+        <li class="page-item active"><span class="page-link">{{ page_obj.number }} из {{ paginator.num_pages }}</span></li>
+
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ paginator.num_pages }}">the last page &raquo;</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+<button class="btn btn-primary upload-btn" data-bs-toggle="modal" data-bs-target="#uploadModal">
+    +
+</button>
     <button class="btn btn-primary upload-btn" data-bs-toggle="modal" data-bs-target="#uploadModal">
         +
     </button>
