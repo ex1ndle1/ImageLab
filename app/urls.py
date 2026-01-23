@@ -20,5 +20,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/' , TokenVerifyView.as_view() , name='token_verify'),
     path('api/logout/', views.LogoutView.as_view() , name='logout'),
-    path('api/create_token/', views.CreateAPI.as_view() , name='create_token')
+    path('api/create_token/', views.CreateAPI.as_view() , name='create_token'), 
+    path('api/image_detail/<int:id>' , views.ImageDetailAPIView.as_view() ,  name='image_api_detail')
+    
 ]

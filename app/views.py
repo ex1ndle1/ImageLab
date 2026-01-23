@@ -4,7 +4,7 @@ from .forms import ImageUploadForm
 from django.contrib.auth.decorators import login_required   
 from . import models
 from rest_framework import generics , views , permissions , authentication
-from .serializers import UsersSerializer
+from . import serializers
 from .permissions import IsNotExpired
 from rest_framework.response import Response
 from .models import User
@@ -12,8 +12,52 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.request import Request
 from rest_framework.authtoken.models import Token
 from django.core.paginator import Paginator
+from django.core.cache import cache
 
-##########################################FBV pagination view##########
+
+
+class ImageDetailAPIView(generics.RetrieveAPIView):
+    queryset = models.ImageModel.objects.all()
+    serializer_class = serializers.ImageSerializer
+    lookup_field = 'id'
+    authentication_classes = [authentication.BasicAuthentication]
+
+
+    def retrieve(self, request, *args, **kwargs):
+
+        cache_key = f'image_detail_{kwargs.get('id')}'        
+        cached_data = cache.get(cache_key)
+        if cached_data:
+            return Response(cached_data)
+        response = super().retrieve(request, *args, **kwargs)
+        cache.set(cache_key, response.data, 128)
+        
+        return response
+
+
+class PeopleListApiView(generics.ListAPIView):
+    queryset = models.User.objects.all()
+    serializer_class = serializers.UsersSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def list(self , request  , *args , **kwargs):
+        cache_key  = f'list_people_{request.get_full_path()}'
+        cahced_data = cache.get(cache_key)
+        if cahced_data:
+             return Response(cahced_data)
+        
+        #####added for calling basic ListApi logic
+        response = super().list(request, *args, **kwargs)
+        cache.set(cache_key, response.data)
+        return response
+
+
+
+
+
+
+
 def FBVListView(request):
     images = models.ImageModel.objects.order_by('id')
     paginator = Paginator(images, 1)
@@ -30,18 +74,18 @@ class ImageListView(ListView):
     def get_queryset(self):
         return models.ImageModel.objects.order_by('id')
         
+class CategoryAPIView(generics.ListAPIView):
+    pass
 
 
-class PeopleListApiView(generics.ListAPIView):
-    queryset = models.User.objects.all()
-    serializer_class = UsersSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
+class CategoryAPIView(generics.ListAPIView):
+   pass
+
     
-class LtsAPIView(generics.views.APIView):
+class LtsAPIView(generics.ListAPIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
-    
+\
     def  get(self, request):
         return Response(f'hi {request.user.username}')
     
